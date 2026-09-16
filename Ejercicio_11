@@ -1,0 +1,45 @@
+import random
+
+print("--- MENÚ DE DIFICULTAD ---")
+print("1. Fácil: número de 1 a 20, 6 intentos")
+print("2. Intermedio: número de 1 a 50, 5 intentos")
+print("3. Difícil: número de 1 a 100, 4 intentos")
+
+opcion = int(input("Seleccione un nivel (1-3): "))
+
+if opcion == 1:
+    max_numero = 20
+    intentos_restantes = 6
+elif opcion == 2:
+    max_numero = 50
+    intentos_restantes = 5
+else:
+    max_numero = 100
+    intentos_restantes = 4
+
+numero_secreto = random.randint(1, max_numero)
+adivinado = False
+
+print(f"\nHe pensado un número entre 1 y {max_numero}.")
+
+while intentos_restantes > 0:
+    print(f"\nIntentos disponibles: {intentos_restantes}")
+    intento = int(input("Adivina el número: "))
+    
+    intentos_restantes -= 1
+
+    if intento == numero_secreto:
+        print("Número correcto")
+        adivinado = True
+        break
+    elif intento < numero_secreto:
+        print("El número secreto es mayor")
+    else:
+        print("El número secreto es menor")
+
+if adivinado:
+    puntaje = intentos_restantes * 20
+    print(f"Felicidades Tu puntaje es: {puntaje}")
+else:
+    print(f"\nTe quedaste sin intentos. El número secreto era: {numero_secreto}")
+    print("Puntaje: 0")
