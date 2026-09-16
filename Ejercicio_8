@@ -1,0 +1,32 @@
+cantidad = int(input("Ingrese la cantidad de términos: "))
+
+while cantidad <= 0:
+    print("La cantidad debe ser mayor que 0.")
+    cantidad = int(input("Ingrese otra cantidad: "))
+
+a = 0
+b = 1
+
+serie = []
+suma = 0
+pares = 0
+impares = 0
+
+for i in range(cantidad):
+
+    serie.append(a)
+    suma = suma + a
+
+    if a % 2 == 0:
+        pares = pares + 1
+    else:
+        impares = impares + 1
+
+    siguiente = a + b
+    a = b
+    b = siguiente
+
+print("Serie:", serie)
+print("Suma de los términos:", suma)
+print("Cantidad de términos pares:", pares)
+print("Cantidad de términos impares:", impares)
