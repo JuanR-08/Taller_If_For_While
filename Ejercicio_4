@@ -1,0 +1,63 @@
+saldo = 1500000
+
+cantidad_depositos = 0
+cantidad_retiros = 0
+movimientos = []
+
+opcion = 0
+
+while opcion != 5:
+
+    print("\n--- CAJERO AUTOMÁTICO ---")
+    print("1. Consultar saldo")
+    print("2. Depositar dinero")
+    print("3. Retirar dinero")
+    print("4. Ver movimientos realizados")
+    print("5. Salir")
+
+    opcion = int(input("Seleccione una opción: "))
+
+    if opcion == 1:
+        print("Su saldo es:", saldo)
+
+    elif opcion == 2:
+        deposito = float(input("Ingrese el dinero a depositar: "))
+
+        if deposito < 0:
+            print("No se permiten depósitos negativos.")
+        else:
+            saldo = saldo + deposito
+            cantidad_depositos = cantidad_depositos + 1
+            movimientos.append("Depósito: " + str(deposito))
+            print("Depósito realizado correctamente.")
+
+    elif opcion == 3:
+        retiro = float(input("Ingrese el dinero a retirar: "))
+
+        if retiro < 10000:
+            print("No puede retirar menos de $10.000.")
+        elif retiro + 4500 > saldo:
+            print("No tiene saldo suficiente para realizar el retiro.")
+        else:
+            saldo = saldo - retiro - 4500
+            cantidad_retiros = cantidad_retiros + 1
+            movimientos.append("Retiro: " + str(retiro))
+            print("Retiro realizado correctamente.")
+            print("Se cobraron $4.500 por el retiro.")
+
+    elif opcion == 4:
+        print("\n--- MOVIMIENTOS ---")
+        print("Cantidad de depósitos:", cantidad_depositos)
+        print("Cantidad de retiros:", cantidad_retiros)
+
+        if len(movimientos) == 0:
+            print("No hay movimientos realizados.")
+        else:
+            for movimiento in movimientos:
+                print(movimiento)
+
+    elif opcion == 5:
+        print("Gracias por utilizar el cajero.")
+
+    else:
+        print("Opción no válida.")
