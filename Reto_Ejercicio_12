@@ -1,0 +1,131 @@
+opcion = 0
+cantidad_ventas = 0
+total_bruto = 0
+total_descuentos = 0
+total_recargos = 0
+total_recibido = 0
+
+venta_mayor = 0
+venta_menor = 999999999.0
+
+efectivo_cant = 0
+tarjeta_cant = 0
+transferencia_cant = 0
+clientes_con_descuento = 0
+
+while opcion != 5:
+    print("\nSISTEMA DE VENTAS")
+    print("1. Registrar una venta")
+    print("2. Consultar resumen")
+    print("3. Consultar venta mayor y menor")
+    print("4. Cerrar caja")
+    print("5. Salir")
+
+    opcion = int(input("Seleccione una opción: "))
+
+    if opcion == 1:
+        cliente = input("Nombre del cliente: ")
+
+        cantidad = 0
+        while cantidad <= 0:
+            cantidad = int(input("Cantidad de productos: "))
+            if cantidad <= 0:
+                print("La cantidad debe ser un número positivo.")
+
+        precio = 0.0
+        while precio <= 0:
+            precio = float(input("Precio de cada producto: "))
+            if precio <= 0:
+                print("El precio debe ser un número positivo.")
+
+        medio_pago = ""
+        while medio_pago not in ["efectivo", "tarjeta", "transferencia"]:
+            medio_pago = input("Medio de pago (efectivo, tarjeta, transferencia): ").lower()
+            if medio_pago not in ["efectivo", "tarjeta", "transferencia"]:
+                print("Medio de pago inválido. Intente de nuevo.")
+
+        subtotal = cantidad * precio
+        descuento = 0.0
+        recargo = 0.0
+        recibio_descuento_este_cliente = False
+
+        if subtotal > 500000:
+            descuento += subtotal * 0.10
+            recibio_descuento_este_cliente = True
+
+        if medio_pago == "efectivo":
+            efectivo_cant += 1
+            if subtotal > 200000:
+                descuento += subtotal * 0.03
+                recibio_descuento_este_cliente = True
+        elif medio_pago == "tarjeta":
+            tarjeta_cant += 1
+            recargo += subtotal * 0.02
+        elif medio_pago == "transferencia":
+            transferencia_cant += 1
+
+        total_venta = subtotal - descuento + recargo
+
+        cantidad_ventas += 1
+        total_bruto += subtotal
+        total_descuentos += descuento
+        total_recargos += recargo
+        total_recibido += total_venta
+
+        if recibio_descuento_este_cliente:
+            clientes_con_descuento += 1
+
+        if total_venta > venta_mayor:
+            venta_mayor = total_venta
+
+        if total_venta < venta_menor:
+            venta_menor = total_venta
+
+        print(f"\nVenta registrada con éxito a {cliente}.")
+        print(f"Total bruto: ${subtotal}")
+        print(f"Descuentos: ${descuento}")
+        print(f"Recargos: ${recargo}")
+        print(f"Total definitivo: ${total_venta}")
+
+    elif opcion == 2:
+        if cantidad_ventas == 0:
+            print("\nNo se permiten consultar estadísticas si todavía no existen ventas.")
+        else:
+            promedio = total_recibido / cantidad_ventas
+            print("\n--- RESUMEN DE VENTAS ---")
+            print(f"Cantidad de ventas realizadas: {cantidad_ventas}")
+            print(f"Valor total antes de descuentos: ${total_bruto}")
+            print(f"Total de descuentos aplicados: ${total_descuentos}")
+            print(f"Total de recargos aplicados: ${total_recargos}")
+            print(f"Dinero definitivo recibido: ${total_recibido}")
+            print(f"Promedio de las ventas: ${promedio}")
+            print(f"Cantidad de clientes que recibieron descuento: {clientes_con_descuento}")
+            print("\nCantidad de pagos por medio:")
+            print(f"  Efectivo: {efectivo_cant}")
+            print(f"  Tarjeta: {tarjeta_cant}")
+            print(f"  Transferencia: {transferencia_cant}")
+
+    elif opcion == 3:
+        if cantidad_ventas == 0:
+            print("\nNo se permiten consultar estadísticas si todavía no existen ventas.")
+        else:
+            print("\n--- VENTA MAYOR Y MENOR ---")
+            print(f"Venta más alta: ${venta_mayor}")
+            print(f"Venta más baja: ${venta_menor}")
+
+    elif opcion == 4:
+        if cantidad_ventas == 0:
+            print("\nNo se puede cerrar caja si todavía no existen ventas.")
+        else:
+            print("\n====== CIERRE DE CAJA ======")
+            print(f"Total de ventas del día: {cantidad_ventas}")
+            print(f"Total de dinero en caja: ${total_recibido}")
+            
+            opcion = 5
+            print("Caja cerrada. Programa finalizado.")
+
+    elif opcion == 5:
+        print("Programa finalizado.")
+
+    else:
+        print("Opción inválida.")
